@@ -1,0 +1,27 @@
+version: "3"
+
+networks:
+app-tier:
+driver: bridge
+
+services:
+  todoapidocker-exampel:
+    build: .
+    networks:
+      - app-tier
+    ports:
+      - "8090:8090"
+    depends_on:
+      - pgsqldb
+    volumes: -"./:/latihanweek-11/src/app"
+    pqsqldb:
+      image: postgres:12
+      ports: -"5439:5439"
+      env_file:
+        - .env
+      environment:
+        - POSTGRES_USER
+        - POSTGRES_PASSWORD
+        - POSTGRES_DB
+      networks:
+        - app-tier
